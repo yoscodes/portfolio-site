@@ -9,7 +9,7 @@ function Form() {
   const messageRef = useRef<HTMLTextAreaElement>(null);
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
+    // e.preventDefault();
     console.log("送信中・・・");
     console.log(nameRef.current?.value);
 

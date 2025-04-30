@@ -13,7 +13,7 @@ function Form() {
     console.log("送信中・・・");
     console.log(nameRef.current?.value);
 
-    let data = {
+    const data = {
       name: nameRef.current?.value,
       email: emailRef.current?.value,
       message: messageRef.current?.value,

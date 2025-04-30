@@ -30,13 +30,32 @@ export async function POST(req: Request) {
     `,
   };
 
+  // try {
+  //   await transporter.sendMail(mailOptions);
+  //   return NextResponse.json({ message: "メール送信成功" }, { status: 200 });
+  // } catch (error: any) {
+  //   console.error("メール送信失敗:", error);
+  //   return NextResponse.json(
+  //     { message: "送信失敗", error: error.message },
+  //     { status: 500 }
+  //   );
+  // }
+
   try {
     await transporter.sendMail(mailOptions);
     return NextResponse.json({ message: "メール送信成功" }, { status: 200 });
-  } catch (error: any) {
+  } catch (error: unknown) {
     console.error("メール送信失敗:", error);
+
+    if (error instanceof Error) {
+      return NextResponse.json(
+        { message: "送信失敗", error: error.message },
+        { status: 500 }
+      );
+    }
+
     return NextResponse.json(
-      { message: "送信失敗", error: error.message },
+      { message: "送信失敗", error: "予期せぬエラーが発生しました" },
       { status: 500 }
     );
   }

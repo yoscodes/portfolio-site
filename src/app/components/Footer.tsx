@@ -9,7 +9,7 @@ function Footer() {
         {/* アイコン：常に横並び */}
         <div className="flex space-x-6 mb-3 md:mb-0">
           <a
-            href="https://x.com/yoscodes"
+            // href="https://x.com/yoscodes"
             aria-label="X (Twitter)"
             className="text-xl hover:text-blue-400 transition-colors"
           >

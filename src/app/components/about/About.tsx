@@ -1,6 +1,7 @@
 "use client";
 
-import { motion } from "framer-motion";
+import { motion, useAnimation } from "framer-motion";
+import { useRef } from "react";
 import TechStack from "./TechStack";
 
 const sectionVariants = {
@@ -54,6 +55,19 @@ const timelineData = [
 ];
 
 function About() {
+  // 各タイムライン項目のアニメーションコントロールを配列で管理
+  const controlsArray = useRef(timelineData.map(() => useAnimation()));
+
+  // 遊び心のあるアニメーション（弾む）
+  const handleTimelineClick = (index: number) => {
+    const controls = controlsArray.current[index];
+    controls.start({
+      scale: [1, 1.2, 0.95, 1],
+      rotate: [0, 8, -8, 0],
+      transition: { duration: 0.6, times: [0, 0.2, 0.7, 1], type: "keyframes" },
+    });
+  };
+
   return (
     <>
       <motion.section

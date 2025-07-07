@@ -44,7 +44,7 @@ export default function ProjectCard({
           <img
             src={image}
             alt={title}
-            className="rounded-lg h-55 w-full object-cover mb-6"
+            className="rounded-lg aspect-[16/9] w-full object-cover mb-6"
           />
         ) : (
           <div className="flex items-center justify-center h-48 bg-gray-100 text-gray-400 mb-6 rounded-lg">

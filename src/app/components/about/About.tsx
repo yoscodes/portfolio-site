@@ -1,7 +1,6 @@
 "use client";
 
 import { motion, useAnimation } from "framer-motion";
-import { useMemo } from "react";
 import TechStack from "./TechStack";
 
 const sectionVariants = {

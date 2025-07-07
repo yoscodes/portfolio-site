@@ -1,6 +1,7 @@
 "use client"
 
 import { motion } from "framer-motion";
+import Image from "next/image";
 
 type ProjectCardProps = {
   title: string;
@@ -41,10 +42,14 @@ export default function ProjectCard({
         </div>
         {/* 🟢 画像の高さを統一 object-cover を使い、画像のアスペクト比を保つ */}
         {isReady && image ? (
-          <img
+          <Image
             src={image}
             alt={title}
+            width={600}
+            height={338}
             className="rounded-lg aspect-[16/9] w-full object-cover mb-6"
+            style={{ width: '100%', height: 'auto' }}
+            priority
           />
         ) : (
           <div className="flex items-center justify-center h-48 bg-gray-100 text-gray-400 mb-6 rounded-lg">

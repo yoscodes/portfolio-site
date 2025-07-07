@@ -1,7 +1,7 @@
 "use client";
 
 import { motion, useAnimation } from "framer-motion";
-import { useRef } from "react";
+import { useMemo } from "react";
 import TechStack from "./TechStack";
 
 const sectionVariants = {
@@ -55,12 +55,21 @@ const timelineData = [
 ];
 
 function About() {
-  // 各タイムライン項目のアニメーションコントロールを配列で管理
-  const controlsArray = useRef(timelineData.map(() => useAnimation()));
+  // timelineDataの数だけuseAnimationをトップレベルで呼び出す
+  const controlsArray = [
+    useAnimation(),
+    useAnimation(),
+    useAnimation(),
+    useAnimation(),
+    useAnimation(),
+    useAnimation(),
+    useAnimation(),
+    useAnimation(),
+  ];
 
   // 遊び心のあるアニメーション（弾む）
   const handleTimelineClick = (index: number) => {
-    const controls = controlsArray.current[index];
+    const controls = controlsArray[index];
     controls.start({
       scale: [1, 1.2, 0.95, 1],
       rotate: [0, 8, -8, 0],
@@ -97,7 +106,9 @@ function About() {
                   <motion.li
                     key={index}
                     variants={itemVariants}
-                    className="border-l-4 border-blue-600 pl-4"
+                    className="border-l-4 border-blue-600 pl-4 cursor-pointer select-none"
+                    animate={controlsArray[index]}
+                    onClick={() => handleTimelineClick(index)}
                   >
                     <div className="font-bold text-base">{item.year}</div>
                     <div>{item.text}</div>

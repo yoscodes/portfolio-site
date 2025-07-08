@@ -1,6 +1,6 @@
 "use client";
 
-import { motion, useAnimation } from "framer-motion";
+import { motion } from "framer-motion";
 import TechStack from "./TechStack";
 
 const sectionVariants = {
@@ -25,8 +25,8 @@ const timelineVariants = {
 };
 
 const itemVariants = {
-  hidden: { opacity: 0, x: -20 },
-  show: { opacity: 1, x: 0, transition: { duration: 0.4 } },
+  hidden: { opacity: 0, y: -30 },
+  show: { opacity: 1, y: 0, transition: { duration: 0.5, ease: "easeOut" } },
 };
 
 const timelineData = [
@@ -54,28 +54,6 @@ const timelineData = [
 ];
 
 function About() {
-  // timelineDataの数だけuseAnimationをトップレベルで呼び出す
-  const controlsArray = [
-    useAnimation(),
-    useAnimation(),
-    useAnimation(),
-    useAnimation(),
-    useAnimation(),
-    useAnimation(),
-    useAnimation(),
-    useAnimation(),
-  ];
-
-  // 遊び心のあるアニメーション（弾む）
-  const handleTimelineClick = (index: number) => {
-    const controls = controlsArray[index];
-    controls.start({
-      scale: [1, 1.2, 0.95, 1],
-      rotate: [0, 8, -8, 0],
-      transition: { duration: 0.6, times: [0, 0.2, 0.7, 1], type: "keyframes" },
-    });
-  };
-
   return (
     <>
       <motion.section
@@ -105,9 +83,7 @@ function About() {
                   <motion.li
                     key={index}
                     variants={itemVariants}
-                    className="border-l-4 border-blue-600 pl-4 cursor-pointer select-none"
-                    animate={controlsArray[index]}
-                    onClick={() => handleTimelineClick(index)}
+                    className="border-l-4 border-blue-600 pl-4"
                   >
                     <div className="font-bold text-base">{item.year}</div>
                     <div>{item.text}</div>

@@ -39,8 +39,8 @@ function Portfolio() {
               "作業と休憩を繰り返して集中力を維持。",
               "次にやることをメモするのも効果的。",
             ]}
-            image="/img/timer2.jpg"
-            link="https://67f4c401cfb72be787aa190a--pomodoro-timer-yo.netlify.app/"
+            image="/img/pomodoro-timer.jpg"
+            link="https://pomodr-timer.netlify.app/"
           />
           <ProjectCard
             title="PPL-tracker"
@@ -49,7 +49,7 @@ function Portfolio() {
               "種目・重量・回数などを簡単に記録できます。",
               "認証機能付きで個人の成長記録も確認できます。",
             ]}
-            image="/img/ppl2.jpg"
+            image="/img/ppl-tracker.jpg"
             link="https://ppl-tracker3-fszn.vercel.app/"
           />
           <ProjectCard

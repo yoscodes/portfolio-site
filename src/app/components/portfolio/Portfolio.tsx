@@ -41,6 +41,7 @@ function Portfolio() {
             ]}
             image="/img/pomodoro-timer.jpg"
             link="https://pomodr-timer.netlify.app/"
+            githubLink="https://github.com/yoscodes/pomodoro-timer"
           />
           <ProjectCard
             title="PPL-tracker"
@@ -51,6 +52,7 @@ function Portfolio() {
             ]}
             image="/img/ppl-tracker.jpg"
             link="https://ppl-tracker3-fszn.vercel.app/"
+            githubLink="https://github.com/yoscodes/ppl-tracker3"
           />
           <ProjectCard
             title="タイトル未定"

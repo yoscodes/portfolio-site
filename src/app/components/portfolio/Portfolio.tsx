@@ -40,7 +40,7 @@ function Portfolio() {
               "次にやることをメモするのも効果的。",
             ]}
             image="/img/pomodoro-timer.jpg"
-            link="https://pomodr-timer.netlify.app/"
+            link="https://zenn.dev/4o7i1/articles/df425756bea52c"
             githubLink="https://github.com/yoscodes/pomodoro-timer"
           />
           <ProjectCard

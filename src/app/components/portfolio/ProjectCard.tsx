@@ -75,7 +75,7 @@ export default function ProjectCard({
               rel="noopener noreferrer"
               className="text-blue-600 hover:text-blue-800 font-medium flex items-center"
             >
-              試してみる
+              詳細を見る
               {/* <svg
                 className="ml-1"
                 width="20"

@@ -51,7 +51,7 @@ function Portfolio() {
               "認証機能付きで個人の成長記録も確認できます。",
             ]}
             image="/img/ppl-tracker.jpg"
-            link="https://ppl-tracker3-fszn.vercel.app/"
+            link="https://zenn.dev/4o7i1/articles/9f3441c92dda14"
             githubLink="https://github.com/yoscodes/ppl-tracker3"
           />
           <ProjectCard

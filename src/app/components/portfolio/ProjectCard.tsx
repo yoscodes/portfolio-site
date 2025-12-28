@@ -66,8 +66,8 @@ export default function ProjectCard({
           ))}
         </ul>
 
-        {/* 🟢 ボタンが常に下部に揃うように */}
-        <div className="mt-auto flex flex-col gap-2">
+        {/* 🟢 ボタンが常に下部に揃うように（横並び・GitHubを右端に配置） */}
+        <div className="mt-auto flex w-full items-center gap-3">
           {link && (
             <a
               href={link}
@@ -92,7 +92,7 @@ export default function ProjectCard({
               href={githubLink}
               target="_blank"
               rel="noopener noreferrer"
-              className="text-gray-700 hover:text-gray-900 font-medium flex items-center text-sm"
+              className="ml-auto text-gray-700 hover:text-gray-900 font-medium flex items-center text-sm"
             >
               GitHubでコードを見る
               <svg

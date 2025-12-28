@@ -1,6 +1,6 @@
 "use client";
 
-import { motion } from "framer-motion";
+import { motion, useAnimation } from "framer-motion";
 import TechStack from "./TechStack";
 
 const sectionVariants = {
@@ -25,16 +25,16 @@ const timelineVariants = {
 };
 
 const itemVariants = {
-  hidden: { opacity: 0, y: -30 },
-  show: { opacity: 1, y: 0, transition: { duration: 0.5, ease: "easeOut" } },
+  hidden: { opacity: 0, x: -20 },
+  show: { opacity: 1, x: 0, transition: { duration: 0.4 } },
 };
 
 const timelineData = [
   { year: "2020年", text: "高校卒業後、医療系専門学校に入学" },
-  { year: "2021年", text: "国家資格取得を目指して勉学に励む" },
+  { year: "2021年", text: "国家資格取得を目指して学業に励む" },
   {
     year: "2022年",
-    text: "プログラミングに強く興味を持ち、専門学校の学業との両立が難しくなる",
+    text: "プログラミングに強く興味を持ち、学業との両立が難しくなる",
   },
   {
     year: "2022年12月",
@@ -44,16 +44,41 @@ const timelineData = [
   { year: "2023年", text: "HTML / CSS / JavaScriptの学習を開始" },
   {
     year: "2024年",
-    text: "フロントエンドだけでなくPHPなどのバックエンドも触ってみる",
+    text: "フロントエンドだけでなくPHPなどのバックエンドも学習",
   },
-  { year: "2024年後半", text: "React・Next.js・Tailwind CSSの学習を本格化" },
   {
-    year: "現在",
-    text: "React / Supabaseを使用したポートフォリオや筋トレ記録アプリをGitHubで公開",
+    year: "2024年後半~現在",
+    text: "React・Next.js・Tailwind CSSの学習を本格化 \n作ったアプリをGitHubで公開",
+  },
+  {
+    year: "2025年7月~",
+    text: "インフラエンジニアとして勤務開始",
   },
 ];
 
 function About() {
+  // timelineDataの数だけuseAnimationをトップレベルで呼び出す
+  const controlsArray = [
+    useAnimation(),
+    useAnimation(),
+    useAnimation(),
+    useAnimation(),
+    useAnimation(),
+    useAnimation(),
+    useAnimation(),
+    useAnimation(),
+  ];
+
+  // 遊び心のあるアニメーション（弾む）
+  const handleTimelineClick = (index: number) => {
+    const controls = controlsArray[index];
+    controls.start({
+      scale: [1, 1.2, 0.95, 1],
+      rotate: [0, 8, -8, 0],
+      transition: { duration: 0.6, times: [0, 0.2, 0.7, 1], type: "keyframes" },
+    });
+  };
+
   return (
     <>
       <motion.section
@@ -83,10 +108,20 @@ function About() {
                   <motion.li
                     key={index}
                     variants={itemVariants}
-                    className="border-l-4 border-blue-600 pl-4"
+                    className="border-l-4 border-blue-600 pl-4 cursor-pointer select-none"
+                    animate={controlsArray[index]}
+                    onClick={() => handleTimelineClick(index)}
                   >
                     <div className="font-bold text-base">{item.year}</div>
-                    <div>{item.text}</div>
+                    <div
+                      className={
+                        item.year === "2024年後半~現在"
+                          ? "whitespace-pre-line"
+                          : ""
+                      }
+                    >
+                      {item.text}
+                    </div>
                   </motion.li>
                 ))}
               </motion.ul>
@@ -102,29 +137,30 @@ function About() {
               2001年生まれ、三重県出身です。
             </p>
             <p className="mb-6 leading-relaxed">
-              高校卒業後は医療系の専門学校に進学しましたが、
+              高校卒業後は医療系の専門学校に進学しましたが、プログラミングに触れる中で
               <span className="font-semibold text-blue-600">
-                プログラミングの魅力とITの可能性
+                「仕組みを作る面白さ」
               </span>{" "}
-              に惹かれ、エンジニアへの道を目指してキャリアチェンジを決意しました。
+              とITの可能性に惹かれ、キャリアチェンジを決意しました。
             </p>
             <p className="mb-6 leading-relaxed">
               独学で{" "}
               <span className="font-semibold">JavaScript / React / PHP</span>{" "}
-              を中心に学び、小規模な個人アプリの開発を行っています。
-              日々の学習記録やコードはGitHubにも公開しており、アウトプットを大切にしています。
+              を中心に学び、小規模な個人アプリの開発に取り組んでいます。学習過程やコードはGitHubで公開しており、アウトプットを重視しています。
             </p>
             <p className="mb-6 leading-relaxed">
-              もともと探究心が強く、「なぜこうなるのか？」を深掘りしながら学ぶのが好きです。
-              コツコツと地道に取り組む性格で、一度始めたことは粘り強くやり抜くタイプです。
+              もともと探究心が強く、「なぜこうなるのか」を深掘りしながら理解するのが好きです。この性格はエラーやトラブルに対しても表面的な対応で終わらず、原因や仕組みを突き止めたいという姿勢につながっています。その結果、現在はインフラエンジニアとして働き、
+              <span className="font-semibold text-blue-600">
+                システムの安定性や再現性を支える仕事
+              </span>{" "}
+              に強い関心を持って取り組んでいます。
             </p>
             <p className="mb-6 leading-relaxed">
-              今後はシステムエンジニアとして基礎を固め、
+              今後もシステムの仕組みを理解しながら、
               <span className="font-semibold text-blue-600">
                 チーム開発や大規模システム
               </span>{" "}
-              にも挑戦し、実社会に役立つプロダクトを作るのが目標です。
-              そのために、今できることを一歩ずつ増やしながら前に進んでいます。
+              にも挑戦し、実社会に価値を提供できるプロダクトを作ることを目標に、一歩ずつ経験を積んでいます。
             </p>
           </div>
         </div>

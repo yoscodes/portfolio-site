@@ -8,6 +8,7 @@ type ProjectCardProps = {
   description: string[];
   image?: string;
   link?: string;
+  githubLink?: string;
   isReady?: boolean;
 };
 
@@ -21,6 +22,7 @@ export default function ProjectCard({
   description,
   image,
   link,
+  githubLink,
   isReady = true,
 }: ProjectCardProps) {
   return (
@@ -65,25 +67,46 @@ export default function ProjectCard({
         </ul>
 
         {/* 🟢 ボタンが常に下部に揃うように */}
-        {link && (
-          <a
-            href={link}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="mt-auto text-blue-600 hover:text-blue-800 font-medium flex items-center"
-          >
-            もっと見る
-            <svg
-              className="ml-1"
-              width="20"
-              height="20"
-              fill="currentColor"
-              viewBox="0 0 256 256"
+        <div className="mt-auto flex flex-col gap-2">
+          {link && (
+            <a
+              href={link}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-blue-600 hover:text-blue-800 font-medium flex items-center"
             >
-              <path d="M221.66,133.66l-72,72a8,8,0,0,1-11.32-11.32L196.69,136H40a8,8,0,0,1,0-16H196.69L138.34,61.66a8,8,0,0,1,11.32-11.32l72,72A8,8,0,0,1,221.66,133.66Z" />
-            </svg>
-          </a>
-        )}
+              記事を見る
+              <svg
+                className="ml-1"
+                width="20"
+                height="20"
+                fill="currentColor"
+                viewBox="0 0 256 256"
+              >
+                <path d="M221.66,133.66l-72,72a8,8,0,0,1-11.32-11.32L196.69,136H40a8,8,0,0,1,0-16H196.69L138.34,61.66a8,8,0,0,1,11.32-11.32l72,72A8,8,0,0,1,221.66,133.66Z" />
+              </svg>
+            </a>
+          )}
+          {githubLink && (
+            <a
+              href={githubLink}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-gray-700 hover:text-gray-900 font-medium flex items-center text-sm"
+            >
+              GitHubでコードを見る
+              <svg
+                className="ml-1"
+                width="18"
+                height="18"
+                fill="currentColor"
+                viewBox="0 0 24 24"
+              >
+                <path d="M12 0.5C5.37 0.5 0 5.87 0 12.5C0 17.56 3.44 21.8 8.21 23.16C8.81 23.27 9.03 22.91 9.03 22.6C9.03 22.32 9.02 21.56 9.02 20.64C6 21.22 5.22 19.45 5.22 19.45C4.68 18.06 3.89 17.69 3.89 17.69C2.79 16.96 3.98 16.98 3.98 16.98C5.21 17.07 5.86 18.25 5.86 18.25C6.94 20.11 8.71 19.57 9.38 19.27C9.49 18.49 9.81 17.97 10.16 17.68C7.91 17.39 5.54 16.53 5.54 12.55C5.54 11.36 5.96 10.4 6.66 9.66C6.54 9.37 6.16 8.27 6.76 6.71C6.76 6.71 7.64 6.41 9.03 7.49C9.86 7.26 10.75 7.14 11.64 7.14C12.53 7.14 13.42 7.26 14.25 7.49C15.64 6.41 16.52 6.71 16.52 6.71C17.12 8.27 16.74 9.37 16.62 9.66C17.32 10.4 17.74 11.36 17.74 12.55C17.74 16.54 15.36 17.38 13.1 17.67C13.52 18.03 13.9 18.73 13.9 19.81C13.9 21.29 13.88 22.23 13.88 22.6C13.88 22.91 14.1 23.28 14.71 23.16C19.48 21.8 22.92 17.56 22.92 12.5C22.92 5.87 17.55 0.5 10.92 0.5H12Z" />
+              </svg>
+            </a>
+          )}
+        </div>
       </div>
     </motion.div>
   );

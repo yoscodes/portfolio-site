@@ -67,6 +67,16 @@ function Portfolio() {
             link="https://sync-mind-a46nu8r7a-suzuki-yoseis-projects.vercel.app/"
             githubLink="https://github.com/yoscodes/SyncMind"
           />
+          <ProjectCard
+            title="concept Forge"
+            description={[
+              "言葉にならない事業案を、伝わるコンセプトに鍛えるAIワークスペース",
+              "自分らしい事業の軸を見つけ、伝わる言葉に整える",
+            ]}
+            image="/img/concept-forge.jpg"
+            link="https://concept-forge-nduxaaou0-suzuki-yoseis-projects.vercel.app/"
+            githubLink="https://github.com/yoscodes/concept-forge"
+          />
         </div>
       </div>
     </motion.section>

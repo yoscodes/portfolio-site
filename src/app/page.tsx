@@ -5,15 +5,16 @@ import About from "./components/about/About";
 import Contact from "./components/Contact";
 import Footer from "./components/Footer";
 
-
 export default function Home() {
   return (
     <>
       <Header />
-      <Hero />
-      <Portfolio />
-      <About />
-      <Contact />
+      <main>
+        <Hero />
+        <Portfolio />
+        <About />
+        <Contact />
+      </main>
       <Footer />
     </>
   );

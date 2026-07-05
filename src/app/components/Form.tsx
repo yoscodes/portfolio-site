@@ -3,148 +3,129 @@
 import { useRef, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 
-function Form() {
-  const nameRef = useRef<HTMLInputElement>(null);
-  const emailRef = useRef<HTMLInputElement>(null);
+export default function Form() {
+  const nameRef    = useRef<HTMLInputElement>(null);
+  const emailRef   = useRef<HTMLInputElement>(null);
   const messageRef = useRef<HTMLTextAreaElement>(null);
-  const [status, setStatus] = useState<
-    "idle" | "loading" | "success" | "error"
-  >("idle");
+  const [status, setStatus] = useState<"idle" | "loading" | "success" | "error">("idle");
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setStatus("loading");
 
     const data = {
-      name: nameRef.current?.value,
-      email: emailRef.current?.value,
+      name:    nameRef.current?.value,
+      email:   emailRef.current?.value,
       message: messageRef.current?.value,
     };
 
     try {
       const res = await fetch("/api/contact", {
         method: "POST",
-        headers: {
-          Accept: "application/json, text/plain, */*",
-          "Content-Type": "application/json",
-        },
+        headers: { "Content-Type": "application/json" },
         body: JSON.stringify(data),
       });
-
       if (res.status === 200) {
         setStatus("success");
-        if (nameRef.current) nameRef.current.value = "";
-        if (emailRef.current) emailRef.current.value = "";
+        if (nameRef.current)    nameRef.current.value    = "";
+        if (emailRef.current)   emailRef.current.value   = "";
         if (messageRef.current) messageRef.current.value = "";
       } else {
         setStatus("error");
       }
-    } catch (err) {
-      console.error("送信エラー", err);
+    } catch {
       setStatus("error");
     }
 
-    // メッセージを数秒後に非表示にする（任意）
     setTimeout(() => setStatus("idle"), 5000);
   };
 
   return (
-    <form className="max-w-lg mx-auto" onSubmit={handleSubmit}>
-      <div className="grid md:grid-cols-2 md:gap-6">
-        <div className="relative z-0 w-full mb-5 group">
+    <form
+      onSubmit={handleSubmit}
+      style={{ maxWidth: "520px", margin: "0 auto", width: "100%" }}
+    >
+      <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(200px, 1fr))", gap: "1rem", marginBottom: "1rem" }}>
+        <div>
+          <label htmlFor="name" className="form-label">お名前</label>
           <input
+            id="name"
             type="text"
-            name="floating_name"
-            id="floating_name"
-            className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none focus:outline-none focus:ring-0 focus:border-blue-600 peer"
-            placeholder=" "
+            className="form-input"
+            placeholder="山田 太郎"
             required
             ref={nameRef}
           />
-          <label
-            htmlFor="floating_name"
-            className="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:text-blue-600 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
-          >
-            名前
-          </label>
         </div>
-
-        <div className="relative z-0 w-full mb-5 group">
+        <div>
+          <label htmlFor="email" className="form-label">メールアドレス</label>
           <input
+            id="email"
             type="email"
-            name="floating_email"
-            id="floating_email"
-            className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none  focus:outline-none focus:ring-0 focus:border-blue-600 peer"
-            placeholder=" "
+            className="form-input"
+            placeholder="example@email.com"
             required
             ref={emailRef}
           />
-          <label
-            htmlFor="floating_email"
-            className="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:text-blue-600 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
-          >
-            メールアドレス
-          </label>
         </div>
       </div>
 
-      <div className="relative z-0 w-full mb-5 group">
+      <div style={{ marginBottom: "1.75rem" }}>
+        <label htmlFor="message" className="form-label">コメント</label>
         <textarea
-          name="floating_comment"
-          id="floating_comment"
-          className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none  focus:outline-none focus:ring-0 focus:border-blue-600 peer"
-          placeholder=" "
+          id="message"
+          className="form-input"
+          placeholder="ご自由にどうぞ"
+          rows={5}
           required
           ref={messageRef}
         />
-        <label
-          htmlFor="floating_comment"
-          className="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:text-blue-600 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
-        >
-          コメント
-        </label>
       </div>
 
-      {/* ボタン */}
-      <div className="flex justify-center mt-14">
-        <button
-          className={`flex justify-center items-center text-white py-2 px-6 border-0 rounded text-lg duration-300 ${
-            status === "loading"
-              ? "bg-blue-400 cursor-not-allowed"
-              : "bg-blue-700 hover:bg-blue-600"
-          }`}
+      <div style={{ display: "flex", justifyContent: "center" }}>
+        <motion.button
           type="submit"
           disabled={status === "loading"}
+          className="btn-primary"
+          whileHover={status !== "loading" ? { scale: 1.04 } : {}}
+          whileTap={status !== "loading" ? { scale: 0.96 } : {}}
+          style={status === "loading" ? { opacity: 0.6, cursor: "not-allowed" } : {}}
         >
-          {status === "loading" ? "送信中…" : "送信"}
-        </button>
+          {status === "loading" ? (
+            <>
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" aria-hidden="true" style={{ animation: "spin 1s linear infinite" }}>
+                <path d="M21 12a9 9 0 11-6.219-8.56"/>
+              </svg>
+              送信中…
+            </>
+          ) : "送信する"}
+        </motion.button>
       </div>
 
-      {/* アニメーション付きメッセージ */}
       <AnimatePresence>
         {status === "success" && (
           <motion.div
-            className="text-green-600 text-center mt-6"
-            initial={{ opacity: 0, y: -10 }}
+            initial={{ opacity: 0, y: -8 }}
             animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: -10 }}
+            exit={{ opacity: 0 }}
+            style={{ textAlign: "center", marginTop: "1.5rem", color: "#22c55e", fontSize: "0.9375rem", fontWeight: 500 }}
           >
-            ✅ 送信に成功しました！
+            ✓ 送信が完了しました！ありがとうございました。
           </motion.div>
         )}
         {status === "error" && (
           <motion.div
-            className="text-red-600 text-center mt-6"
-            initial={{ opacity: 0, y: -10 }}
+            initial={{ opacity: 0, y: -8 }}
             animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: -10 }}
+            exit={{ opacity: 0 }}
+            style={{ textAlign: "center", marginTop: "1.5rem", color: "#ef4444", fontSize: "0.9375rem", fontWeight: 500 }}
           >
-            ❌ 送信に失敗しました。もう一度お試しください。
+            送信に失敗しました。もう一度お試しください。
           </motion.div>
         )}
       </AnimatePresence>
+
+      <style>{`@keyframes spin { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }`}</style>
     </form>
   );
 }
-
-export default Form;

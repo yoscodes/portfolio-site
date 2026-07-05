@@ -3,79 +3,37 @@
 import { motion, useAnimation } from "framer-motion";
 import TechStack from "./TechStack";
 
+const timelineData = [
+  { year: "2020年",   text: "医療系専門学校 入学" },
+  { year: "2022年",   text: "エンジニアへの転身を決意。プログラミングの自走学習を開始" },
+  { year: "2024年〜", text: "React / Next.js を軸に個人開発。作品は Portfolio 参照" },
+  { year: "2025年〜", text: "インフラエンジニアとして就業開始" },
+];
+
 const sectionVariants = {
-  hidden: { opacity: 0, y: 30 },
-  show: {
-    opacity: 1,
-    y: 0,
-    transition: {
-      duration: 0.8,
-      ease: "easeOut",
-    },
-  },
+  hidden: { opacity: 0, y: 24 },
+  show:   { opacity: 1, y: 0, transition: { duration: 0.7, ease: "easeOut" } },
 };
 
-const timelineVariants = {
+const staggerVariants = {
   hidden: {},
-  show: {
-    transition: {
-      staggerChildren: 0.2,
-    },
-  },
+  show:   { transition: { staggerChildren: 0.12 } },
 };
 
 const itemVariants = {
-  hidden: { opacity: 0, x: -20 },
-  show: { opacity: 1, x: 0, transition: { duration: 0.4 } },
+  hidden: { opacity: 0, x: -16 },
+  show:   { opacity: 1, x: 0, transition: { duration: 0.4, ease: "easeOut" } },
 };
 
-const timelineData = [
-  { year: "2020年", text: "高校卒業後、医療系専門学校に入学" },
-  { year: "2021年", text: "国家資格取得を目指して学業に励む" },
-  {
-    year: "2022年",
-    text: "プログラミングに強く興味を持ち、学業との両立が難しくなる",
-  },
-  {
-    year: "2022年12月",
-    text: "進路を見つめ直し、専門学校を中退してITの道へ進むことを決意",
-  },
+export default function About() {
+  // eslint-disable-next-line react-hooks/rules-of-hooks
+  const controls = timelineData.map(() => useAnimation());
 
-  { year: "2023年", text: "HTML / CSS / JavaScriptの学習を開始" },
-  {
-    year: "2024年",
-    text: "フロントエンドだけでなくPHPなどのバックエンドも学習",
-  },
-  {
-    year: "2024年後半~現在",
-    text: "React・Next.js・Tailwind CSSの学習を本格化 \n作ったアプリをGitHubで公開",
-  },
-  {
-    year: "2025年7月~",
-    text: "インフラエンジニアとして勤務開始",
-  },
-];
-
-function About() {
-  // timelineDataの数だけuseAnimationをトップレベルで呼び出す
-  const controlsArray = [
-    useAnimation(),
-    useAnimation(),
-    useAnimation(),
-    useAnimation(),
-    useAnimation(),
-    useAnimation(),
-    useAnimation(),
-    useAnimation(),
-  ];
-
-  // 遊び心のあるアニメーション（弾む）
-  const handleTimelineClick = (index: number) => {
-    const controls = controlsArray[index];
-    controls.start({
-      scale: [1, 1.2, 0.95, 1],
-      rotate: [0, 8, -8, 0],
-      transition: { duration: 0.6, times: [0, 0.2, 0.7, 1], type: "keyframes" },
+  const bounce = (i: number) => {
+    controls[i].start({
+      scale: [1, 1.18, 0.96, 1],
+      rotate: [0, 6, -6, 0],
+      transition: { duration: 0.55, times: [0, 0.2, 0.7, 1] },
     });
   };
 
@@ -83,91 +41,94 @@ function About() {
     <>
       <motion.section
         id="about"
-        className="text-gray-700 border-t border-r-gray-200"
+        className="section"
+        style={{ borderTop: "1px solid var(--border)", background: "var(--bg-surface)" }}
         initial="hidden"
         whileInView="show"
         viewport={{ once: true }}
         variants={sectionVariants}
       >
-        <div className="container px-5 py-24 mx-auto flex flex-col-reverse lg:flex-row items-center">
-          {/* タイムライン（左） */}
-          <div className="mt-10 mb-2 lg:mt-0 lg:mb-0 lg:w-1/2 flex justify-center">
-            <div className="bg-gradient-to-br from-white via-blue-50 to-white border rounded-lg shadow-lg p-6 w-full max-w-lg">
-              <h2 className="text-xl font-semibold mb-4 text-blue-600">
-                経歴タイムライン
-              </h2>
-              <motion.ul
-                className="space-y-4 text-gray-800"
-                initial="hidden"
-                whileInView="show"
-                viewport={{ once: true }}
-                variants={timelineVariants}
-                transition={{ delay: 0.2 }} // 遅延を加える
-              >
-                {timelineData.map((item, index) => (
-                  <motion.li
-                    key={index}
-                    variants={itemVariants}
-                    className="border-l-4 border-blue-600 pl-4 cursor-pointer select-none"
-                    animate={controlsArray[index]}
-                    onClick={() => handleTimelineClick(index)}
-                  >
-                    <div className="font-bold text-base">{item.year}</div>
-                    <div
-                      className={
-                        item.year === "2024年後半~現在"
-                          ? "whitespace-pre-line"
-                          : ""
-                      }
-                    >
-                      {item.text}
-                    </div>
-                  </motion.li>
-                ))}
-              </motion.ul>
-            </div>
+        <div className="container">
+          <div style={{ marginBottom: "3rem" }}>
+            <h2 className="text-h1" style={{ color: "var(--text-primary)" }}>About Me</h2>
           </div>
 
-          {/* テキスト（右） */}
-          <div className="lg:pr-12 w-full lg:w-1/2">
-            <h1 className="text-2xl sm:text-3xl font-bold text-gray-900 mb-10 lg:text-left text-center">
-              About Me
-            </h1>
-            <p className="mb-6 leading-relaxed">
-              2001年生まれ、三重県出身です。
-            </p>
-            <p className="mb-6 leading-relaxed">
-              高校卒業後は医療系の専門学校に進学しましたが、プログラミングに触れる中で
-              <span className="font-semibold text-blue-600">
-                「仕組みを作る面白さ」
-              </span>{" "}
-              とITの可能性に惹かれ、キャリアチェンジを決意しました。
-            </p>
-            <p className="mb-6 leading-relaxed">
-              独学で{" "}
-              <span className="font-semibold">JavaScript / React / PHP</span>{" "}
-              を中心に学び、小規模な個人アプリの開発に取り組んでいます。学習過程やコードはGitHubで公開しており、アウトプットを重視しています。
-            </p>
-            <p className="mb-6 leading-relaxed">
-              もともと探究心が強く、「なぜこうなるのか」を深掘りしながら理解するのが好きです。この性格はエラーやトラブルに対しても表面的な対応で終わらず、原因や仕組みを突き止めたいという姿勢につながっています。その結果、現在はインフラエンジニアとして働き、
-              <span className="font-semibold text-blue-600">
-                システムの安定性や再現性を支える仕事
-              </span>{" "}
-              に強い関心を持って取り組んでいます。
-            </p>
-            <p className="mb-6 leading-relaxed">
-              今後もシステムの仕組みを理解しながら、
-              <span className="font-semibold text-blue-600">
-                チーム開発や大規模システム
-              </span>{" "}
-              にも挑戦し、実社会に価値を提供できるプロダクトを作ることを目標に、一歩ずつ経験を積んでいます。
-            </p>
+          <div style={{
+            display: "grid",
+            gridTemplateColumns: "repeat(auto-fit, minmax(min(100%, 400px), 1fr))",
+            gap: "clamp(2.5rem, 6vw, 5rem)",
+            alignItems: "start",
+          }}>
+            {/* ── Left: Bio ── */}
+            <div>
+              {/* ① 今何をしているか */}
+              <p className="text-body" style={{ color: "var(--text-secondary)", marginBottom: "1.25rem" }}>
+                現在は<span style={{ fontWeight: 600, color: "var(--text-primary)" }}>インフラエンジニアとして就業中</span>。
+                サーバー構築・運用・障害対応を通じて、システムの安定性・可用性・再現性を支える実務を積んでいます。
+              </p>
+
+              {/* ② 何ができるか */}
+              <p className="text-body" style={{ color: "var(--text-secondary)", marginBottom: "1.25rem" }}>
+                その実務知識を土台に、
+                <span style={{ fontWeight: 600, color: "var(--accent)" }}>React&thinsp;/&thinsp;Next.js&thinsp;/&thinsp;TypeScript</span>{" "}
+                を使ったフロントエンド開発の領域を広げています。
+                システム全体を俯瞰できる視点でWebを設計できることが、純粋なフロントエンジニアとの差別化ポイントだと考えています。
+              </p>
+
+              {/* ③ どういう経緯か */}
+              <p className="text-body" style={{ color: "var(--text-secondary)", marginBottom: "2.5rem" }}>
+                もともとは医療系専門学校を経てエンジニアに転身。
+                「なぜこうなるのか」を深掘りする性格と、
+                <span style={{ fontWeight: 600, color: "var(--accent)" }}>自走して学べる実行力</span>
+                が、現在の技術ベースを作ってきました。
+                今後は{" "}
+                <span style={{ fontWeight: 600, color: "var(--text-primary)" }}>チーム開発・大規模システム</span>
+                {" "}に挑戦し、実社会で使われるプロダクトを作ることを目標にしています。
+              </p>
+            </div>
+
+            {/* ── Right: Timeline ── */}
+            <div>
+              <div style={{
+                background: "var(--bg-elevated)",
+                border: "1px solid var(--border)",
+                borderRadius: "16px",
+                padding: "clamp(1.5rem, 3vw, 2rem)",
+              }}>
+                <p className="section-label" style={{ marginBottom: "1.5rem" }}>Timeline</p>
+
+                <motion.ul
+                  initial="hidden"
+                  whileInView="show"
+                  viewport={{ once: true }}
+                  variants={staggerVariants}
+                  style={{ listStyle: "none" }}
+                >
+                  {timelineData.map((item, i) => (
+                    <motion.li
+                      key={i}
+                      className="timeline-item"
+                      variants={itemVariants}
+                      animate={controls[i]}
+                      onClick={() => bounce(i)}
+                    >
+                      <div className="timeline-dot" />
+                      <div style={{ fontSize: "0.75rem", fontWeight: 700, color: "var(--accent)", letterSpacing: "0.03em", marginBottom: "0.25rem" }}>
+                        {item.year}
+                      </div>
+                      <div className="text-small" style={{ color: "var(--text-secondary)" }}>
+                        {item.text}
+                      </div>
+                    </motion.li>
+                  ))}
+                </motion.ul>
+              </div>
+            </div>
           </div>
         </div>
       </motion.section>
+
       <TechStack />
     </>
   );
 }
-
-export default About;

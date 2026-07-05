@@ -1,89 +1,149 @@
-"use client"
+"use client";
 
 import { motion } from "framer-motion";
 import Image from "next/image";
+import type { ReactNode } from "react";
 
 type ProjectCardProps = {
   title: string;
   description: string[];
+  tags?: string[];
   image?: string;
   link?: string;
   githubLink?: string;
   isReady?: boolean;
+  icon?: ReactNode;
 };
 
 const itemVariants = {
-  hidden: { opacity: 0, y: 30 },
-  show: { opacity: 1, y: 0, transition: { duration: 0.6, ease: "easeOut" } },
+  hidden: { opacity: 0, y: 28 },
+  show:  { opacity: 1, y: 0, transition: { duration: 0.55, ease: "easeOut" } },
 };
 
 export default function ProjectCard({
   title,
   description,
+  tags,
   image,
   link,
   githubLink,
   isReady = true,
+  icon,
 }: ProjectCardProps) {
   return (
-    <motion.div
-      className="w-full"
-      variants={itemVariants} // これに加えて
-    >
-      {/* 🟢 カードの高さを統一 flex と grid */}
-      <div className="bg-gray-50 border border-gray-200 rounded-xl p-6 hover:shadow-md transition duration-300 flex flex-col h-full">
-        <div className="flex items-center mb-4">
-          <div className="bg-blue-500 text-white rounded-full p-2">
-            <svg width="24" height="24" fill="currentColor" viewBox="0 0 24 24">
-              <path d="M13.325 3.05011L8.66741 20.4323L10.5993 20.9499L15.2568 3.56775L13.325 3.05011Z" />
-              <path d="M7.61197 18.3608L8.97136 16.9124L3.87657 12.1121L8.66699 7.00798L7.20868 5.63928L1.04956 12.2017L7.61197 18.3608Z" />
-              <path d="M16.388 18.3608L15.0286 16.9124L20.1234 12.1121L15.333 7.00798L16.7913 5.63928L22.9504 12.2017L16.388 18.3608Z" />
-            </svg>
-          </div>
-          <h2 className="text-gray-800 text-lg font-semibold ml-3">{title}</h2>
-        </div>
-        {/* 🟢 画像の高さを統一 object-cover を使い、画像のアスペクト比を保つ */}
+    <motion.div className="card" variants={itemVariants} style={{ display: "flex", flexDirection: "column" }}>
+      {/* Image */}
+      <div style={{ position: "relative", overflow: "hidden", borderRadius: "14px 14px 0 0" }}>
         {isReady && image ? (
-          <Image
-            src={image}
-            alt={title}
-            width={600}
-            height={338}
-            className="rounded-lg aspect-[16/9] w-full object-cover mb-6"
-            style={{ width: '100%', height: 'auto' }}
-            priority
-          />
+          <>
+            <Image
+              src={image}
+              alt={title}
+              width={600}
+              height={338}
+              style={{ width: "100%", height: "auto", display: "block", aspectRatio: "16/9", objectFit: "cover" }}
+              priority
+            />
+            {/* Gradient overlay */}
+            <div style={{
+              position: "absolute",
+              inset: 0,
+              background: "linear-gradient(to bottom, transparent 50%, rgba(0,0,0,0.45))",
+              pointerEvents: "none",
+            }}/>
+          </>
         ) : (
-          <div className="flex items-center justify-center h-48 bg-gray-100 text-gray-400 mb-6 rounded-lg">
+          <div style={{
+            height: "180px",
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+            background: "var(--bg-elevated)",
+            color: "var(--text-muted)",
+            fontSize: "0.875rem",
+          }}>
             準備中...
           </div>
         )}
+      </div>
 
-        {/* 🟢 説明文の高さを統一 flex-grow */}
-        <ul className="text-sm text-gray-700 list-disc list-inside flex-grow mb-6">
-          {description.map((item, index) => (
-            <li key={index}>{item}</li>
+      {/* Body */}
+      <div style={{ padding: "1.375rem 1.5rem 1.5rem", display: "flex", flexDirection: "column", flex: 1 }}>
+        {/* Title row */}
+        <div style={{ display: "flex", alignItems: "center", gap: "0.625rem", marginBottom: "0.875rem" }}>
+          <div style={{
+            width: "32px", height: "32px",
+            borderRadius: "8px",
+            background: "var(--accent-soft)",
+            display: "flex", alignItems: "center", justifyContent: "center",
+            flexShrink: 0,
+          }}>
+            {icon ?? (
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--accent)" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+                <polyline points="16 18 22 12 16 6"/>
+                <polyline points="8 6 2 12 8 18"/>
+              </svg>
+            )}
+          </div>
+          <h3 className="text-h3" style={{ color: "var(--text-primary)" }}>{title}</h3>
+        </div>
+
+        {/* Description */}
+        <ul style={{ flex: 1, marginBottom: "1.25rem", display: "flex", flexDirection: "column", gap: "0.3rem" }}>
+          {description.map((item, i) => (
+            <li
+              key={i}
+              className="text-small"
+              style={{
+                color: "var(--text-secondary)",
+                paddingLeft: "1rem",
+                position: "relative",
+              }}
+            >
+              <span style={{ position: "absolute", left: 0, color: "var(--accent)" }}>›</span>
+              {item}
+            </li>
           ))}
         </ul>
 
-        {/* 🟢 ボタンが常に下部に揃うように（横並び・GitHubを右端に配置） */}
-        <div className="mt-auto flex w-full items-center gap-3">
+        {/* Tech tags */}
+        {tags && tags.length > 0 && (
+          <div style={{ display: "flex", flexWrap: "wrap", gap: "0.375rem", marginBottom: "1rem" }}>
+            {tags.map(tag => (
+              <span key={tag} style={{
+                fontSize: "0.6875rem",
+                fontWeight: 600,
+                padding: "0.2rem 0.6rem",
+                borderRadius: "9999px",
+                background: "var(--accent-soft)",
+                color: "var(--accent)",
+                letterSpacing: "0.03em",
+              }}>
+                {tag}
+              </span>
+            ))}
+          </div>
+        )}
+
+        {/* Links */}
+        <div style={{ display: "flex", alignItems: "center", gap: "0.75rem", marginTop: "auto" }}>
           {link && (
             <a
               href={link}
               target="_blank"
               rel="noopener noreferrer"
-              className="text-blue-600 hover:text-blue-800 font-medium flex items-center"
+              style={{
+                display: "inline-flex", alignItems: "center", gap: "0.3rem",
+                fontSize: "0.875rem", fontWeight: 600, color: "var(--accent)",
+                textDecoration: "none", transition: "opacity 0.2s",
+              }}
+              onMouseEnter={e => (e.currentTarget.style.opacity = "0.7")}
+              onMouseLeave={e => (e.currentTarget.style.opacity = "1")}
             >
               記事を見る
-              <svg
-                className="ml-1"
-                width="20"
-                height="20"
-                fill="currentColor"
-                viewBox="0 0 256 256"
-              >
-                <path d="M221.66,133.66l-72,72a8,8,0,0,1-11.32-11.32L196.69,136H40a8,8,0,0,1,0-16H196.69L138.34,61.66a8,8,0,0,1,11.32-11.32l72,72A8,8,0,0,1,221.66,133.66Z" />
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+                <line x1="5" y1="12" x2="19" y2="12"/>
+                <polyline points="12 5 19 12 12 19"/>
               </svg>
             </a>
           )}
@@ -92,17 +152,18 @@ export default function ProjectCard({
               href={githubLink}
               target="_blank"
               rel="noopener noreferrer"
-              className="ml-auto text-gray-700 hover:text-gray-900 font-medium flex items-center text-sm"
+              style={{
+                marginLeft: "auto",
+                display: "inline-flex", alignItems: "center", gap: "0.3rem",
+                fontSize: "0.8125rem", fontWeight: 500, color: "var(--text-secondary)",
+                textDecoration: "none", transition: "color 0.2s",
+              }}
+              onMouseEnter={e => (e.currentTarget.style.color = "var(--text-primary)")}
+              onMouseLeave={e => (e.currentTarget.style.color = "var(--text-secondary)")}
             >
-              GitHubでコードを見る
-              <svg
-                className="ml-1"
-                width="18"
-                height="18"
-                fill="currentColor"
-                viewBox="0 0 24 24"
-              >
-                <path d="M12 0.5C5.37 0.5 0 5.87 0 12.5C0 17.56 3.44 21.8 8.21 23.16C8.81 23.27 9.03 22.91 9.03 22.6C9.03 22.32 9.02 21.56 9.02 20.64C6 21.22 5.22 19.45 5.22 19.45C4.68 18.06 3.89 17.69 3.89 17.69C2.79 16.96 3.98 16.98 3.98 16.98C5.21 17.07 5.86 18.25 5.86 18.25C6.94 20.11 8.71 19.57 9.38 19.27C9.49 18.49 9.81 17.97 10.16 17.68C7.91 17.39 5.54 16.53 5.54 12.55C5.54 11.36 5.96 10.4 6.66 9.66C6.54 9.37 6.16 8.27 6.76 6.71C6.76 6.71 7.64 6.41 9.03 7.49C9.86 7.26 10.75 7.14 11.64 7.14C12.53 7.14 13.42 7.26 14.25 7.49C15.64 6.41 16.52 6.71 16.52 6.71C17.12 8.27 16.74 9.37 16.62 9.66C17.32 10.4 17.74 11.36 17.74 12.55C17.74 16.54 15.36 17.38 13.1 17.67C13.52 18.03 13.9 18.73 13.9 19.81C13.9 21.29 13.88 22.23 13.88 22.6C13.88 22.91 14.1 23.28 14.71 23.16C19.48 21.8 22.92 17.56 22.92 12.5C22.92 5.87 17.55 0.5 10.92 0.5H12Z" />
+              GitHub
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+                <path d="M12 2a10 10 0 00-3.16 19.49c.5.09.68-.22.68-.48v-1.7c-2.78.6-3.37-1.34-3.37-1.34-.46-1.16-1.11-1.47-1.11-1.47-.91-.62.07-.61.07-.61 1 .07 1.53 1.03 1.53 1.03.89 1.52 2.34 1.08 2.91.83.09-.64.35-1.08.63-1.33-2.22-.25-4.55-1.11-4.55-4.94 0-1.09.39-1.98 1.02-2.67-.1-.25-.44-1.27.1-2.64 0 0 .84-.27 2.75 1.02a9.56 9.56 0 015 0c1.91-1.29 2.75-1.02 2.75-1.02.54 1.37.2 2.39.1 2.64.63.69 1.02 1.58 1.02 2.67 0 3.84-2.34 4.68-4.57 4.93.36.31.68.92.68 1.85v2.74c0 .27.18.58.69.48A10 10 0 0012 2z"/>
               </svg>
             </a>
           )}
